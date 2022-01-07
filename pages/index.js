@@ -17,7 +17,6 @@ const Home = () => {
       done: false
     }
   ]);
-
   const add = () => {
     if (todoItem) {
       setItems([
@@ -32,7 +31,7 @@ const Home = () => {
     }
   };
 
-  const changeStatus = (id) => {
+  const changeStatus = ({id}) => {
     const _items = items.map((item) => {
       if (item.id === id) {
         return {
@@ -43,6 +42,16 @@ const Home = () => {
       return item;
     });
     setItems(_items);
+  };
+
+  const deleteItem = ({id}) => {
+    const _items = items.filter((item) => {
+      if (item.id !== id) {
+        return item;
+      }
+    });
+    console.log(_items)
+    setItems([..._items]);
   };
 
   const eventEnter = (e) => {
@@ -66,8 +75,10 @@ const Home = () => {
           items.map(({ id, content, done }) => (
             <li key={id} className={cx(style.item, { done: done })}>{content}
               <div className="float-right">
-                <button className="py-2 px-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700" onClick={changeStatus({ id })}>Done</button>
-                <button className="py-2 px-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700">Delete</button>
+                <button className="py-2 px-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700" onClick={() => changeStatus({ id })}>
+                  {done?"Processing":"Done"}
+                </button>
+                <button className="py-2 px-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700" onClick={() => deleteItem({id})}>Delete</button>
               </div>
             </li>
           ))
